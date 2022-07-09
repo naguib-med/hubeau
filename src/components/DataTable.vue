@@ -1,6 +1,14 @@
 <template>
   <v-container>
     <v-card>
+      <v-alert
+          dense
+          outlined
+          type="error"
+          v-if="errorProfondeur"
+      >
+        La profondeur d'accès aux résultats est  <strong>: 20000</strong>
+      </v-alert>
       <v-card-title>
         <v-text-field
             v-model="search"
@@ -51,6 +59,7 @@ export default {
   name: "DataTable",
   data() {
     return {
+      errorProfondeur: false,
       search: '',
       page: 1,
       totalTemperatures: 0,
@@ -121,7 +130,9 @@ export default {
               // })
             });
       }
-
+      else {
+        this.errorProfondeur = true
+      }
 
 
     },
