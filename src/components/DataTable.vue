@@ -90,19 +90,23 @@
                       class="white--text"
                       v-bind="attrs"
                       v-on="on"
-                      @click="exportCSV"
+
                   >
                     Export CSV
                   </v-btn>
                 </template>
 
                 <v-list>
-                  <v-list-item
-                      v-for="item in items"
-                      :key="item"
-                      link
-                  >
-                    <v-list-item-title v-text="item"></v-list-item-title>
+                 <v-list-item>
+                   <v-btn  @click="exportCSV('chronique')" block color="primary">
+                     Chroniques
+                   </v-btn>
+                 </v-list-item>
+
+                  <v-list-item>
+                    <v-btn  @click="exportCSV('station')" block color="primary">
+                      Stations
+                    </v-btn>
                   </v-list-item>
                 </v-list>
               </v-menu>
@@ -232,12 +236,19 @@ export default {
 
   },
   methods: {
-    exportCSV() {
-      axios.get("https://hubeau.eaufrance.fr/api/v1/temperature/chronique.csv", {
+    exportCSV(name) {
+      let type = '';
+      if (name === 'chronique') {
+        type = name;
+      }
+      else {
+        type = name
+      }
+      axios.get("https://hubeau.eaufrance.fr/api/v1/temperature/"+type+".csv", {
         responseType: 'blob'
       })
           .then((response) => {
-            saveAs(response.data, 'file.csv')
+            saveAs(response.data, type+".csv")
           })
     },
     scrollToElement() {
