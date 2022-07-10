@@ -186,7 +186,6 @@ export default {
     },
 
     codeDepart: function (){
-      console.log("oui")
       this.readDataStationsFromAPI();
     },
 
@@ -274,34 +273,7 @@ export default {
   },
 
   computed: {
-    // filterTemp() {
-    //   console.log("salut")
-    //   return null
-    // }
-    // temperatures(){
-    //   if (this.filterTemp){
-    //     return this.temperatures.filter(temp =>
-    //     temp.value.toLowerCase().includes(this.filterTemp.toLowerCase())
-    //     )
-    //   }
-    // }
   }
-
-      // headers() {
-    //   return [
-    //     {
-    //       text: 'Code Station',
-    //       align: 'left',
-    //
-    //       value: 'code_station',
-    //     },
-    //     { text: "Date mesure", value: "date_mesure_temp"},
-    //     { text: "Heure mesure temp", value: "heure_mesure_temp"},
-    //     { text: "Resultat", value: "resultat",  filter: this.nameFilter, sortable: false, },
-    //     { text: "Code unite", value: "code_unite", sortable: false  },
-    //     { text: "Symbole unite", value: "symbole_unite", sortable: false  }
-    //   ]
-
 }
 </script>
 
