@@ -1,19 +1,18 @@
 <template>
-  <v-container fluid class="pa-md-10 mb-10"
+  <v-container fluid
   >
 
-    <v-card class="elevation-2 mt-2 rounded-0">
-      <v-alert
-          dense
-          outlined
-          type="error"
-          v-if="errorProfondeur"
-          id="alertPro"
-      >
-        La profondeur d'accès aux résultats est  <strong>: 20000</strong>
-      </v-alert>
+    <v-alert
+        dense
+        outlined
+        type="error"
+        v-if="errorProfondeur"
+        id="alertPro"
+    >
+      La profondeur d'accès aux résultats est  <strong>: 20000</strong>
+    </v-alert>
 
-
+    <div class="elevation-2 pa-md-5">
       <v-data-table
           :page="page"
           :pageCount="numberOfPages"
@@ -32,7 +31,7 @@
             prevIcon: 'mdi-chevron-left',
             nextIcon: 'mdi-chevron-right',
           }"
-         >
+      >
 
         <template v-slot:[`item.uri_station`]="{ item }">
           <a :href="item.uri_station">{{ item.uri_station }}</a>
@@ -44,7 +43,7 @@
 
         <template v-slot:top>
           <v-row class="d-flex">
-            <v-col cols="3" class="mr-auto">
+            <v-col cols="2" class="mr-auto">
               <v-text-field
                   v-model="filterTemp"
                   label="Rechercher par département"
@@ -71,7 +70,7 @@
               ></v-select>
             </v-col>
 
-            <v-col cols="1" >
+            <v-col cols="1">
               <v-select
                   :items="items"
                   label="Order"
@@ -79,13 +78,45 @@
                   v-model="toggleSort"
               ></v-select>
             </v-col>
+
+            <v-col cols="1" >
+              <v-menu
+                  offset-y
+              >
+                <template v-slot:activator="{ attrs, on }">
+                  <v-btn
+                      color="green"
+                      large
+                      class="white--text"
+                      v-bind="attrs"
+                      v-on="on"
+                      @click="exportCSV"
+                  >
+                    Export CSV
+                  </v-btn>
+                </template>
+
+                <v-list>
+                  <v-list-item
+                      v-for="item in items"
+                      :key="item"
+                      link
+                  >
+                    <v-list-item-title v-text="item"></v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
+<!--              <v-btn color="green" class="white&#45;&#45;text" large @click="exportCSV">-->
+<!--                Export CSV-->
+<!--              </v-btn>-->
+            </v-col>
           </v-row>
 
 
         </template>
       </v-data-table>
+    </div>
 
-    </v-card>
 
     <div class="d-flex mt-5" v-if="errorProfondeur">
       <div class="pa-2 mx-auto" >
@@ -97,12 +128,12 @@
         </v-btn>
       </div>
     </div>
-    <v-row class="d-flex ma-6">
-        <v-col>
-        </v-col>
-        <v-col>
-        </v-col>
-    </v-row>
+<!--    <v-row class="d-flex ma-6">-->
+<!--        <v-col>-->
+<!--        </v-col>-->
+<!--        <v-col>-->
+<!--        </v-col>-->
+<!--    </v-row>-->
 
 
   </v-container>
@@ -113,11 +144,14 @@
 import axios from "axios";
 import {ref} from "vue";
 
+
 let profondeur  = ref(0)
 // let currentPage = ref(1)
 
 export default {
   name: "DataTable",
+  components: {
+  },
   data() {
     return {
       toggleSort: 'asc',
@@ -197,6 +231,19 @@ export default {
 
   },
   methods: {
+    exportCSV() {
+      axios.get("https://hubeau.eaufrance.fr/api/v1/temperature/chronique.csv", {
+        responseType: 'blob'
+      })
+          .then((response) => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'file.csv');
+            document.body.appendChild(link);
+            link.click();
+          })
+    },
     scrollToElement() {
       const el = this.$el.querySelector("#alertPro");
       if (el) {

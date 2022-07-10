@@ -1,27 +1,93 @@
 <template>
   <div>
+    <v-row class="pa-md-5">
+      <h4 class="red--text">
+        Veuillez selectionner une période :
+      </h4>
+    </v-row>
     <v-row>
       <v-col cols="2">
         <v-select
-            :items="datesMesure"
-            label="Date Mesure"
-            solo
-            v-model="dateMesureTemp"
+            :items="listCodeCoursEau"
+            label="Code cours d'eau"
+            outlined
+            v-model="codeCoursEau"
         ></v-select>
+      </v-col>
+
+      <v-col
+          cols="2"
+      >
+        <v-menu
+            v-model="menu1"
+            :close-on-content-click="false"
+            :nudge-right="40"
+            transition="scale-transition"
+            offset-y
+            min-width="auto"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-text-field
+                v-model="dateDebut"
+                label="Date debut mesure"
+                prepend-icon="mdi-calendar"
+                readonly
+                v-bind="attrs"
+                v-on="on"
+                outlined
+            ></v-text-field>
+          </template>
+          <v-date-picker
+              v-model="dateDebut"
+              @input="menu1 = false"
+          ></v-date-picker>
+        </v-menu>
+      </v-col>
+
+
+      <v-col
+          cols="2"
+      >
+        <v-menu
+            v-model="menu2"
+            :close-on-content-click="false"
+            :nudge-right="40"
+            transition="scale-transition"
+            offset-y
+            min-width="auto"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-text-field
+                v-model="dateFin"
+                label="Date fin mesure"
+                prepend-icon="mdi-calendar"
+                readonly
+                v-bind="attrs"
+                v-on="on"
+                outlined
+            ></v-text-field>
+          </template>
+          <v-date-picker
+              v-model="dateFin"
+              @input="menu2 = false"
+          ></v-date-picker>
+        </v-menu>
       </v-col>
     </v-row>
 
-    <Bar
-        :chart-options="chartOptions"
-        :chart-data="chartData"
-        :chart-id="chartId"
-        :dataset-id-key="datasetIdKey"
-        :plugins="plugins"
-        :css-classes="cssClasses"
-        :styles="styles"
-        :width="width"
-        :height="height"
-    />
+    <div>
+      <Bar
+          :chart-options="chartOptions"
+          :chart-data="chartData"
+          :chart-id="chartId"
+          :dataset-id-key="datasetIdKey"
+          :plugins="plugins"
+          :css-classes="cssClasses"
+          :styles="styles"
+          :width="width"
+          :height="height"
+      />
+    </div>
   </div>
 
 
@@ -81,14 +147,18 @@ export default {
   },
   data() {
     return {
-      datesMesure: ['2008-07-01'],
-      dateMesureTemp: '',
+      dateDebut: '',
+      dateFin: '',
+      menu1: false,
+      menu2: false,
+      listCodeCoursEau: [],
+      codeCoursEau: '',
       temperatures: [],
       chartData: {
         labels: [],
         datasets: [
           {
-            label: "Cours d'eau",
+            label: "Températures d'un cours d'eau",
             backgroundColor: '#0D47A1',
             data: []
           }
@@ -111,22 +181,26 @@ export default {
       deep: true,
     },
 
-    dateMesureTemp: function() {
+    dateFin: function() {
       this.readDataFromAPI();
     },
   },
 
   methods: {
     readDataFromAPI() {
+
       axios
           .get(
-             " https://hubeau.eaufrance.fr/api/v1/temperature/chronique?code_station=01001336&size=20&sort=asc&page=1"
+             " https://hubeau.eaufrance.fr/api/v1/temperature/chronique?code_station=05025600&size=100&sort=desc&page=1"
           )
           .then((response) => {
             this.temperatures = response.data.data;
             // tab = response.data.data
             for (let temp in this.temperatures) {
-              if (this.temperatures[temp].code_cours_eau === "E1820700" && this.dateMesureTemp === this.temperatures[temp].date_mesure_temp) {
+              if (this.dateDebut <= this.temperatures[temp].date_mesure_temp) {
+                console.log("vrai")
+              }
+              if (this.temperatures[temp].code_cours_eau === "S03-0400" && this.dateDebut <= this.temperatures[temp].date_mesure_temp && this.dateFin >= this.temperatures[temp].date_mesure_temp) {
                 this.chartData.labels.push(this.temperatures[temp].heure_mesure_temp);
                 this.chartData.datasets[0].data.push(this.temperatures[temp].resultat)
               }
