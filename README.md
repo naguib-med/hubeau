@@ -1,4 +1,4 @@
-# hubeau
+# Project Hubeau
 
 ## Project setup
 ```
@@ -20,5 +20,23 @@ npm run build
 npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+**Pour une meilleure utilisation de graphique, il faut renseigner tous les champs**
+
+### Implemented fonctionalities
+
+<ul>
+    <li>Consultation des derniers relevés de température des cours d'eau d'un département</li>
+    <li>Téléchargement de données des chroniques et des stations en CSV</li>
+    <li>Afficher les données par ordre croissant ou décroissant </li>
+    <li>La profondeur d'accès aux résultats est : 20000</li>
+    <li>Taille maximum de page est 5000.</li>
+</ul>
+
+### Fonctionnalités graphiques
+
+<ul>
+    <li>Afficher des graphiques permettant de consulter les variations des températures d'un cours d'eau sur une période sélectionée.</li>
+</ul>
+
+
+
