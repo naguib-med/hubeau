@@ -143,6 +143,7 @@
 <script>
 import axios from "axios";
 import {ref} from "vue";
+import { saveAs } from 'file-saver'
 
 
 let profondeur  = ref(0)
@@ -236,12 +237,7 @@ export default {
         responseType: 'blob'
       })
           .then((response) => {
-            const url = window.URL.createObjectURL(new Blob([response.data]));
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', 'file.csv');
-            document.body.appendChild(link);
-            link.click();
+            saveAs(response.data, 'file.csv')
           })
     },
     scrollToElement() {
