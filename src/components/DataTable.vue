@@ -1,12 +1,14 @@
 <template>
-  <v-container fluid class="pa-md-10 "
+  <v-container fluid class="pa-md-10 mb-10"
   >
+
     <v-card class="elevation-2 mt-2 rounded-0">
       <v-alert
           dense
           outlined
           type="error"
           v-if="errorProfondeur"
+          id="alertPro"
       >
         La profondeur d'accès aux résultats est  <strong>: 20000</strong>
       </v-alert>
@@ -21,10 +23,9 @@
           :server-items-length="totalTemperatures"
           :loading="loading"
           :search="filterTemp"
-          item-key="resultat"
           :footer-props="{
           showFirstLastPage: true,
-           'items-per-page-options': [5, 15, 30, 50, 100, 5000, -1],
+           'items-per-page-options': [5, 15, 30, 50, 100, 1000, 5000, -1],
             'items-per-page-text':'Chroniques par page',
              firstIcon: 'mdi-skip-previous',
             lastIcon: 'mdi-skip-next',
@@ -83,7 +84,27 @@
 
         </template>
       </v-data-table>
+
     </v-card>
+
+    <div class="d-flex mt-5" v-if="errorProfondeur">
+      <div class="pa-2 mx-auto" >
+        <span class="error--text"  ><strong>Something is wrong ! go to the top of the page</strong></span>
+      </div>
+      <div class="pa-2 mx-auto" >
+        <v-btn color="primary" @click="scrollToElement" >
+          Top
+        </v-btn>
+      </div>
+    </div>
+    <v-row class="d-flex ma-6">
+        <v-col>
+        </v-col>
+        <v-col>
+        </v-col>
+    </v-row>
+
+
   </v-container>
 
 </template>
@@ -165,21 +186,29 @@ export default {
     },
 
     codeDepart: function (){
+      console.log("oui")
       this.readDataStationsFromAPI();
     },
 
     codeStation: function() {
       this.readDataFromAPI();
-    }
-
+    },
 
 
 
   },
   methods: {
+    scrollToElement() {
+      const el = this.$el.querySelector("#alertPro");
+      if (el) {
+        el.scrollIntoView();
+      }
+    },
+
     //Reading data from API method.
     readDataStationsFromAPI() {
       console.log(this.codeDepart)
+      this.itemsStation = [];
       axios
           .get(
               "https://hubeau.eaufrance.fr/api/v1/temperature/station?code_departement="+this.codeDepart+"&size=20&exact_count=true"
@@ -211,7 +240,7 @@ export default {
 
       console.log("prof",profondeur.value)
 
-      if (profondeur.value <= 20000) {
+      if (profondeur.value <= 10000) {
         console.log("entrée")
         axios
             .get(
@@ -234,6 +263,7 @@ export default {
       }
       else {
         this.errorProfondeur = true
+        this.scrollToElement();
       }
 
 
