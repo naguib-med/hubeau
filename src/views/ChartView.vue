@@ -1,13 +1,17 @@
 <template>
-  <v-container fluid class="pa-md-8">
-    <div class="mb-8">
-      <h2 class="indigo--text">
-        Les grahiques ci-dessous pour permet de consulter les variations des
-        températures d'un cours d'eau sur une période sélectionée.
-      </h2>
+  <div>
+    <v-container fluid class="pa-md-8">
+      <div class="mb-8">
+        <h2 class="indigo--text">
+          Les grahiques ci-dessous pour permet de consulter les variations des
+          températures d'un cours d'eau sur une période sélectionée.
+        </h2>
+      </div>
+    </v-container>
+    <div>
+      <chart />
     </div>
-    <chart class="elevation-2 pa-md-5" />
-  </v-container>
+  </div>
 </template>
 
 <script>

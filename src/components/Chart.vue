@@ -1,114 +1,134 @@
 <template>
   <div>
-    <v-row class="pa-md-5">
-      <h4 style="font-size: 18px">Veuillez selectionner une période :</h4>
-    </v-row>
-    <v-row>
-      <v-col cols="2">
-        <v-select
-          :items="itemsDepart"
-          label="Code département"
-          solo
-          outlined
-          v-model="codeDepart"
-        ></v-select>
-      </v-col>
+    <div class="ml-10">
+      <v-row class="pa-md-5">
+        <h4 style="font-size: 18px">Veuillez selectionner une période :</h4>
+      </v-row>
+      <v-row>
+        <v-col cols="2">
+          <v-select
+            :items="itemsDepart"
+            label="Code département"
+            solo
+            outlined
+            v-model="codeDepart"
+          ></v-select>
+        </v-col>
 
-      <v-col cols="2">
-        <v-select
-          :items="itemsStation"
-          label="Code station"
-          solo
-          outlined
-          v-model="codeStation"
-        ></v-select>
-      </v-col>
+        <v-col cols="2">
+          <v-select
+            :items="itemsStation"
+            label="Code station"
+            solo
+            outlined
+            v-model="codeStation"
+          ></v-select>
+        </v-col>
 
-      <v-col cols="2">
-        <v-select
-          :items="listCodeCoursEau"
-          label="Code cours d'eau"
-          outlined
-          solo
-          v-model="codeCoursEau"
-        ></v-select>
-      </v-col>
+        <v-col cols="2">
+          <v-select
+            :items="listCodeCoursEau"
+            label="Code cours d'eau"
+            outlined
+            solo
+            v-model="codeCoursEau"
+          ></v-select>
+        </v-col>
 
-      <v-col cols="2">
-        <v-menu
-          v-model="menu1"
-          :close-on-content-click="false"
-          :nudge-right="40"
-          transition="scale-transition"
-          offset-y
-          min-width="auto"
-        >
-          <template v-slot:activator="{ on, attrs }">
-            <v-text-field
+        <v-col cols="2">
+          <v-menu
+            v-model="menu1"
+            :close-on-content-click="false"
+            :nudge-right="40"
+            transition="scale-transition"
+            offset-y
+            min-width="auto"
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-text-field
+                v-model="dateDebut"
+                label="Date debut mesure"
+                prepend-icon="mdi-calendar"
+                readonly
+                solo
+                v-bind="attrs"
+                v-on="on"
+                outlined
+              ></v-text-field>
+            </template>
+            <v-date-picker
               v-model="dateDebut"
-              label="Date debut mesure"
-              prepend-icon="mdi-calendar"
-              readonly
-              solo
-              v-bind="attrs"
-              v-on="on"
-              outlined
-            ></v-text-field>
-          </template>
-          <v-date-picker
-            v-model="dateDebut"
-            @input="menu1 = false"
-          ></v-date-picker>
-        </v-menu>
-      </v-col>
+              @input="menu1 = false"
+            ></v-date-picker>
+          </v-menu>
+        </v-col>
 
-      <v-col cols="2">
-        <v-menu
-          v-model="menu2"
-          :close-on-content-click="false"
-          :nudge-right="40"
-          transition="scale-transition"
-          offset-y
-          min-width="auto"
-        >
-          <template v-slot:activator="{ on, attrs }">
-            <v-text-field
+        <v-col cols="2">
+          <v-menu
+            v-model="menu2"
+            :close-on-content-click="false"
+            :nudge-right="40"
+            transition="scale-transition"
+            offset-y
+            min-width="auto"
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-text-field
+                v-model="dateFin"
+                label="Date fin mesure"
+                prepend-icon="mdi-calendar"
+                readonly
+                v-bind="attrs"
+                v-on="on"
+                outlined
+                solo
+              ></v-text-field>
+            </template>
+            <v-date-picker
               v-model="dateFin"
-              label="Date fin mesure"
-              prepend-icon="mdi-calendar"
-              readonly
-              v-bind="attrs"
-              v-on="on"
-              outlined
-              solo
-            ></v-text-field>
-          </template>
-          <v-date-picker
-            v-model="dateFin"
-            @input="menu2 = false"
-          ></v-date-picker>
-        </v-menu>
-      </v-col>
-    </v-row>
+              @input="menu2 = false"
+            ></v-date-picker>
+          </v-menu>
+        </v-col>
+      </v-row>
+    </div>
 
-    <div>
-      <Bar
-        :chart-options="chartOptions"
-        :chart-data="chartData"
-        :chart-id="chartId"
-        :dataset-id-key="datasetIdKey"
-        :plugins="plugins"
-        :css-classes="cssClasses"
-        :styles="styles"
-        :width="width"
-        :height="height"
-      />
+    <div class="container mt-7">
+      <div class="elevation-5 pa-md-5">
+        <Bar
+          :chart-options="chartOptions"
+          :chart-data="chartData"
+          :chart-id="chartId"
+          :dataset-id-key="datasetIdKey"
+          :plugins="plugins"
+          :css-classes="cssClasses"
+          :styles="styles"
+          :width="width"
+          :height="height"
+        />
+      </div>
+
+      <div class="mt-7 elevation-5 pa-md-5">
+        <Doughnut
+          :chart-options="chartOptions"
+          :chart-data="chartData"
+          :chart-id="chartId"
+          :dataset-id-key="datasetIdKey"
+          :plugins="plugins"
+          :css-classes="cssClasses"
+          :styles="styles"
+          :width="width"
+          :height="height"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { Bar } from "vue-chartjs/legacy";
+import { Doughnut } from "vue-chartjs/legacy";
+
 import {
   Chart as ChartJS,
   Title,
@@ -117,6 +137,7 @@ import {
   BarElement,
   CategoryScale,
   LinearScale,
+  ArcElement,
 } from "chart.js";
 import axios from "axios";
 
@@ -126,7 +147,8 @@ ChartJS.register(
   Legend,
   BarElement,
   CategoryScale,
-  LinearScale
+  LinearScale,
+  ArcElement
 );
 
 export default {
@@ -134,6 +156,7 @@ export default {
   name: "Graphique",
   components: {
     Bar,
+    Doughnut,
   },
 
   props: {
@@ -184,7 +207,28 @@ export default {
         datasets: [
           {
             label: "Températures d'un cours d'eau",
-            backgroundColor: "#0D47A1",
+            backgroundColor: [
+              "#41B883",
+              "#E46651",
+              "#00695C",
+              "#004D40",
+              "#00D8FF",
+              "#DD1B16",
+              "#F44336",
+              "#A7FFEB",
+              "#64FFDA",
+              "#1DE9B6",
+              "#00BFA5",
+              "#4A148C",
+              "#3F51B5",
+              "#B388FF",
+              "#004D40",
+              "#80CBC4",
+              "#4DB6AC",
+              "#26A69A",
+              "#00897B",
+              "#00796B",
+            ],
             data: [],
           },
         ],
