@@ -1,15 +1,12 @@
 <template>
   <div>
-   <div class="d-flex">
-     <div >
-       <h1 class="d-flex justify-center ma-4 indigo--text">Température des cours d'eau en continu</h1>
-       <h3 class="d-flex justify-start ma-8">Température relevées à des fréquences variant de une minute à quelques heures par des capteurs automatiques dans les cours d'eau.</h3>
-     </div>
-
-     <div class="ml-auto ma-4">
-       <v-btn class="indigo white--text" @click="showDiagramms">Graphiques</v-btn>
-     </div>
-   </div>
+  <div class="ma-4 rounded light-blue pa-md-5">
+    <h1 class="mb-5 justify-center d-flex">Température des cours d'eau en continu</h1>
+    <h3 class="white--text">Température relevées à des fréquences variant de une minute à quelques heures par des capteurs automatiques dans les cours d'eau.</h3>
+    <div class="d-flex ma-4">
+      <v-btn class="warning ms-auto" @click="showDiagramms">Voir graphiques</v-btn>
+    </div>
+  </div>
     <data-table/>
   </div>
 </template>

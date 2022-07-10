@@ -15,7 +15,8 @@
     "vue": "^2.6.14",
     "vue-chartjs": "^4.1.1",
     "vue-router": "^3.5.1",
-    "vuetify": "^2.6.0"
+    "vuetify": "^2.6.0",
+    "vuex": "^2.5.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
@@ -25,6 +26,8 @@
     "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
     "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-vue": "^8.0.3",
     "sass": "~1.32.0",
     "sass-loader": "^10.0.0",
@@ -35,10 +38,13 @@
   "eslintConfig": {
     "root": true,
     "env": {
+      "browser": true,
+      "amd": true,
       "node": true
     },
     "extends": [
       "plugin:vue/essential",
+      "plugin:prettier/recommended",
       "eslint:recommended"
     ],
     "parserOptions": {
