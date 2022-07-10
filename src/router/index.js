@@ -1,26 +1,27 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from "vue";
+import VueRouter from "vue-router";
 import tableView from "@/views/TableView";
 import chartView from "@/views/ChartView";
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/',
-    name: 'table',
-    component: tableView
+    path: "/",
+    name: "table",
+    component: tableView,
   },
   {
-    path: '/chart',
-    name: 'chart',
-    component: chartView
+    path: "/chart",
+    name: "chart",
+    component: chartView,
   },
-]
+];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
+  // eslint-disable-next-line no-undef
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;

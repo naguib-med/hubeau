@@ -129,10 +129,8 @@
 import axios from "axios";
 import { ref } from "vue";
 import { saveAs } from "file-saver";
-// import { mapState } from "vuex";
 
 let profondeur = ref(0);
-// let currentPage = ref(1)
 
 export default {
   name: "DataTable",
@@ -193,21 +191,16 @@ export default {
     };
   },
 
-  // computed: {
-  //   // pageCount() {
-  //   //   return parseInt(this.totalPassengers / this.itemsPerPage)
-  //   // },
-
   watch: {
     options: {
       handler() {
-        this.readDataFromAPI();
+        this.readDataTempFromAPI();
       },
       deep: true,
     },
 
     toggleSort: function () {
-      this.readDataFromAPI();
+      this.readDataTempFromAPI();
     },
 
     codeDepart: function () {
@@ -215,7 +208,7 @@ export default {
     },
 
     codeStation: function () {
-      this.readDataFromAPI();
+      this.readDataTempFromAPI();
     },
   },
   methods: {
@@ -244,7 +237,6 @@ export default {
       }
     },
 
-    //Reading data from API method.
     readDataStationsFromAPI() {
       this.itemsStation = [];
       axios
@@ -262,7 +254,7 @@ export default {
           this.totalStations = response.data.count;
         });
     },
-    readDataFromAPI() {
+    readDataTempFromAPI() {
       this.loading = true;
       const { page, itemsPerPage } = this.options;
       console.log("Page Number ", page, itemsPerPage);
@@ -293,12 +285,6 @@ export default {
             this.temperatures = response.data.data;
             this.totalTemperatures = response.data.count;
             this.numberOfPages = this.totalTemperatures / itemsPerPage;
-            // this.temperatures = response.data.data.map((item) => {
-            //   return {
-            //     details: {},
-            //     ...item
-            //   }
-            // })
           });
       } else if (profondeur.value >= 20000) {
         this.errorProfondeur = true;
@@ -307,7 +293,7 @@ export default {
     },
   },
   mounted() {
-    this.readDataFromAPI();
+    this.readDataTempFromAPI();
   },
 };
 </script>
