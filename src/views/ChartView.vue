@@ -9,6 +9,9 @@
 
         <h4 style="font-size: 18px">Veuillez selectionner une période.</h4>
       </div>
+      <v-btn class="d-flex ms-auto" color="primary" @click="goHome">
+        Revenir
+      </v-btn>
     </v-container>
     <div class="mb-15">
       <chart />
@@ -21,6 +24,13 @@ import chart from "@/components/Chart";
 export default {
   name: "ChartView",
   components: { chart },
+  methods: {
+    goHome() {
+      this.$router.push({
+        path: "/",
+      });
+    },
+  },
 };
 </script>
 

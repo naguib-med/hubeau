@@ -281,6 +281,7 @@ export default {
     readDataFromAPI() {
       this.listCodeCoursEau = [];
       this.chartData.labels = [];
+      this.chartData.datasets[0].data = [];
       axios
         .get(
           " https://hubeau.eaufrance.fr/api/v1/temperature/chronique?code_station=" +
@@ -288,7 +289,6 @@ export default {
             "&size=100&sort=desc&page=1"
         )
         .then((response) => {
-          console.log(response);
           this.temperatures = response.data.data;
           for (let temp in this.temperatures) {
             if (this.temperatures[temp].code_cours_eau) {
