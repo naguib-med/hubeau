@@ -1,10 +1,7 @@
 <template>
   <div>
     <div class="ml-10">
-      <v-row class="pa-md-5">
-        <h4 style="font-size: 18px">Veuillez selectionner une période :</h4>
-      </v-row>
-      <v-row>
+      <v-row class="d-flex justify-center">
         <v-col cols="2">
           <v-select
             :items="itemsDepart"

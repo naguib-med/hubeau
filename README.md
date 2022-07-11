@@ -38,4 +38,12 @@ npm run lint
 </ul>
 
 
+### Choix techniques
+
+<ul>
+    <li>Vuejs</li>
+    <li>Vuetify</li>
+    <li>Prettier et Eslint</li>
+</ul>
+
 

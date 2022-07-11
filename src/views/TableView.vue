@@ -4,12 +4,12 @@
       <h1 class="mb-5 justify-center d-flex">
         Température des cours d'eau en continu
       </h1>
-      <h3 class="white--text">
+      <h3 class="white--text justify-center d-flex">
         Température relevées à des fréquences variant de une minute à quelques
         heures par des capteurs automatiques dans les cours d'eau.
       </h3>
-      <div class="d-flex ma-4">
-        <v-btn class="warning ms-auto" @click="showDiagramms"
+      <div class="d-flex mt-7 mb-6">
+        <v-btn class="warning mx-auto" @click="showDiagramms"
           >Voir graphiques</v-btn
         >
       </div>

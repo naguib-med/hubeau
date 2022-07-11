@@ -4,7 +4,7 @@
       La profondeur d'accès aux résultats est <strong>: 20000</strong>
     </v-alert>
 
-    <div class="elevation-4 pa-md-5">
+    <div class="elevation-4 pa-md-5 mb-15">
       <v-data-table
         :page="page"
         :pageCount="numberOfPages"
@@ -33,81 +33,77 @@
         </template>
 
         <template v-slot:top>
-          <v-row class="d-flex">
-            <v-col cols="2" class="mr-auto">
-              <v-text-field
-                v-model="filterTemp"
-                label="Rechercher par département"
-                class="mx-4"
-                solo
-                outlined
-              ></v-text-field>
-            </v-col>
+          <div>
+            <v-row class="d-flex">
+              <v-col cols="2" class="mr-auto">
+                <v-select
+                  :items="itemsDepart"
+                  label="Code département"
+                  solo
+                  outlined
+                  v-model="codeDepart"
+                ></v-select>
+              </v-col>
 
-            <v-col cols="2">
-              <v-select
-                :items="itemsDepart"
-                label="Code département"
-                solo
-                outlined
-                v-model="codeDepart"
-              ></v-select>
-            </v-col>
+              <v-col cols="2">
+                <v-select
+                  :items="itemsStation"
+                  label="Code station"
+                  solo
+                  outlined
+                  v-model="codeStation"
+                ></v-select>
+              </v-col>
 
-            <v-col cols="2">
-              <v-select
-                :items="itemsStation"
-                label="Code station"
-                solo
-                outlined
-                v-model="codeStation"
-              ></v-select>
-            </v-col>
+              <v-col cols="2">
+                <v-select
+                  :items="items"
+                  label="Order"
+                  solo
+                  outlined
+                  v-model="toggleSort"
+                ></v-select>
+              </v-col>
 
-            <v-col cols="1">
-              <v-select
-                :items="items"
-                label="Order"
-                solo
-                outlined
-                v-model="toggleSort"
-              ></v-select>
-            </v-col>
-
-            <v-col cols="1">
-              <v-menu offset-y>
-                <template v-slot:activator="{ attrs, on }">
-                  <v-btn
-                    color="green"
-                    large
-                    class="white--text"
-                    v-bind="attrs"
-                    v-on="on"
-                  >
-                    Export CSV
-                  </v-btn>
-                </template>
-
-                <v-list>
-                  <v-list-item>
+              <v-col cols="2">
+                <v-menu offset-y>
+                  <template v-slot:activator="{ attrs, on }">
                     <v-btn
-                      @click="exportCSV('chronique')"
-                      block
-                      color="primary"
+                      color="green"
+                      x-large
+                      class="white--text"
+                      v-bind="attrs"
+                      v-on="on"
                     >
-                      Chroniques
+                      Export CSV
                     </v-btn>
-                  </v-list-item>
+                  </template>
 
-                  <v-list-item>
-                    <v-btn @click="exportCSV('station')" block color="primary">
-                      Stations
-                    </v-btn>
-                  </v-list-item>
-                </v-list>
-              </v-menu>
-            </v-col>
-          </v-row>
+                  <v-list>
+                    <v-list-item>
+                      <v-btn
+                        @click="exportCSV('chronique')"
+                        block
+                        color="primary"
+                      >
+                        Chroniques
+                      </v-btn>
+                    </v-list-item>
+
+                    <v-list-item>
+                      <v-btn
+                        @click="exportCSV('station')"
+                        block
+                        color="primary"
+                      >
+                        Stations
+                      </v-btn>
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
+              </v-col>
+            </v-row>
+          </div>
         </template>
       </v-data-table>
     </div>
@@ -115,11 +111,13 @@
     <div class="d-flex mt-5" v-if="errorProfondeur">
       <div class="pa-2 mx-auto">
         <span class="error--text"
-          ><strong>Something is wrong ! go to the top of the page</strong></span
+          ><strong
+            >Quelque chose ne va pas ! Allez en haut de la page</strong
+          ></span
         >
       </div>
       <div class="pa-2 mx-auto">
-        <v-btn color="primary" @click="scrollToElement"> Top </v-btn>
+        <v-btn color="primary" @click="scrollToElement"> Haut </v-btn>
       </div>
     </div>
   </v-container>
@@ -268,7 +266,7 @@ export default {
 
       profondeur.value = pageNumber * itemsPerPage;
 
-      if (profondeur.value <= 10000) {
+      if (profondeur.value <= 20000) {
         axios
           .get(
             "https://hubeau.eaufrance.fr/api/v1/temperature/chronique?code_station=" +
@@ -286,7 +284,7 @@ export default {
             this.totalTemperatures = response.data.count;
             this.numberOfPages = this.totalTemperatures / itemsPerPage;
           });
-      } else if (profondeur.value >= 20000) {
+      } else if (profondeur.value > 20000) {
         this.errorProfondeur = true;
         this.scrollToElement();
       }
