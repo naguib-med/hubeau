@@ -19,6 +19,9 @@ npm run build
 ```
 npm run lint
 ```
+### Collection Postman
+Lien vers collection postman : https://github.com/naguib-med/hubeau/blob/master/Hubeau%20Collection.postman_collection.json
+
 
 **Pour une meilleure utilisation de graphique, il faut renseigner tous les champs**
 
@@ -45,5 +48,7 @@ npm run lint
     <li>Vuetify</li>
     <li>Prettier et Eslint</li>
 </ul>
+
+
 
 
