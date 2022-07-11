@@ -7,7 +7,9 @@
           sélectionée.
         </h2>
 
-        <h4 style="font-size: 18px">Veuillez selectionner une période.</h4>
+        <h4 style="font-size: 18px">
+          Veuillez renseigner tous les champs et selectionner une période.
+        </h4>
       </div>
       <v-btn class="d-flex ms-auto" color="primary" @click="goHome">
         Revenir
